@@ -120,11 +120,11 @@ def get_analysis_plan_chain():
 @st.cache_resource
 def init_chains():
     db = init_database()
-    llm = get_llm()
+    llm = get_llm(temperature=0.0)
     sql_chain = get_sql_chain(llm, db)
-    query_check_chain = get_query_check_chain(get_llm(temperature=0.0))
+    query_check_chain = get_query_check_chain(llm)
     execute_chain = get_execute_query_chain(db)
-    answer_chain = get_answer_chain(llm)
+    answer_chain = get_answer_chain(get_llm(temperature=0.7))
     return sql_chain, query_check_chain, execute_chain, answer_chain
 
 # 데이터 분석 목적과 주제 입력 폼
@@ -244,8 +244,8 @@ if submit_button:
                 
                 with st.spinner("차트 생성 중..."):
                     python_repl_tool = PythonREPLTool()
-                    chart_code_generate_chain = get_chart_code_generate_chain(get_llm())
-                    chart_code_check_chain = get_chart_code_check_chain(get_llm())
+                    chart_code_generate_chain = get_chart_code_generate_chain(get_llm(temperature=0.0))
+                    chart_code_check_chain = get_chart_code_check_chain(get_llm( temperature=0.0))
 
                     
                     for chart in chart_gen_steps['charts']:
@@ -273,7 +273,7 @@ if submit_button:
                                 st.markdown("**차트 코드:**")
                                 st.code(result["chart_code"], language="python")
                                 
-                                # exec(result["chart_code"], globals())
+                                exec(result["chart_code"], globals())
                             else:
                                 st.error(f"차트 생성 중 오류 발생: {result['error']}")
                                 continue

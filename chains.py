@@ -25,7 +25,7 @@ def get_sql_chain(llm, db: SQLDatabase):
 
         Question: {input}""",
         input_variables=["input", "table_info", "dialect"],
-        partial_variables={"top_k": 5}
+        partial_variables={"top_k": 10}
     )
     
     return create_sql_query_chain(llm, db, prompt)
@@ -266,6 +266,7 @@ def get_chart_code_check_chain(llm):
     chart_code_check_prompt = PromptTemplate(
         template="""
         다음 Python 코드를 검토하고 개선해주세요.
+        code 가 오류없이 실행되는지 확인하고, 오류발생 가능성이 있으면 수정하기 바랍니다.
         
         차트 요구사항: {chart_generate_prompt}
         
@@ -278,6 +279,7 @@ def get_chart_code_check_chain(llm):
         3. 데이터 처리 정확성
         4. 시각화 효과성
         5. streamlit 호환성
+        6. 항상 마지막 라인에는 streamlit에 보여줄 수 있는지 확인해주세요 (예시 : st.plotly_chart(fig))
         
         개선된 Python 코드만 출력해주세요.
 
