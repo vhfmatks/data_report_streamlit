@@ -241,7 +241,7 @@ if submit_button:
                         "purpose": analysis_purpose,
                         "schema": schema
                     })
-                st.write(chart_gen_steps)
+                
                 with st.spinner("차트 생성 중..."):
                     python_repl_tool = PythonREPLTool()
                     chart_code_generate_chain = get_chart_code_generate_chain(get_llm())
