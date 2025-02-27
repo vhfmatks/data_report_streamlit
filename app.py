@@ -273,7 +273,7 @@ if submit_button:
                                 st.markdown("**차트 코드:**")
                                 st.code(result["chart_code"], language="python")
                                 
-                                exec(result["chart_code"], globals())
+                                # exec(result["chart_code"], globals())
                             else:
                                 st.error(f"차트 생성 중 오류 발생: {result['error']}")
                                 continue
